@@ -13,31 +13,45 @@ The SGBM (Semi-Global Block Matching) algorithm is a widely used stereo vision a
 
 ### 1️⃣ Image Capture and Disparity Calculation  
 - Capture left and right images of a scene.  
-- Employ a stereo matching model like **PSMNet** to generate a disparity map.  
+- Employ a stereo matching model like **PSMNet** to generate a disparity map.
+
+
+![Left](images/image_left.png)  ![Right](images/image_right.png) 
 
 ### 2️⃣ VDISPARITY Map Generation  
 - Create a **VDisparity map** from the disparity image.  
 - Each row in the V-Disparity image represents a disparity histogram for that row in the disparity map.  
 - Points on the ground plane appear as a distinct line in the VDisparity map.  
 
+![Left](images/depth.png)  ![Right](images/disparity_map.png) 
+
 ### 3️⃣ Hough Transformation for Road Extraction  
 - Apply **Hough Transformation** on the VDisparity image.  
 - Extract lines that represent the road structure.  
 
+![Hough Transformation](images/hough_lines.png) 
+
 ### 4️⃣ Region of Interest (ROI) Extraction  
 - Determine the **vanishing line** based on disparity values.  
 - Points **above the vanishing line (high disparity) are removed**.  
-- Obtain the **region of interest (ROI)** containing the road.  
+- Obtain the **region of interest (ROI)** containing the road. 
+
+![ROI](images/vanishing_line.png) ![ROI](images/roi.png) 
 
 ### 5️⃣ Lane Line Detection with Threshold Filtering  
 - Apply the **horizontal Sobel operator** on the ROI image to detect gradients.  
 - Use **OTSU Thresholding** for binarization.  
 - Apply **median filtering** to remove noise.  
 
+
+![ROI](images/perspective_transform.png) ![ROI](images/threshholding.png) 
+
 ### 6️⃣ Cycle Lane Detection  
 - Identify **cycle lanes** characterized by **two full white lines** at the road edges.  
 - Locate **base points** by detecting peaks in pixel distribution at the bottom of the image.  
-- Utilize the **sliding window technique** to trace lines from base points.  
+- Utilize the **sliding window technique** to trace lines from base points.
+
+![ROI](images/sliding_window.png) 
 
 ### 7️⃣ Approximate Line Detection  
 - Define **N** as the number of points in a line using sliding windows.  
@@ -47,3 +61,5 @@ The SGBM (Semi-Global Block Matching) algorithm is a widely used stereo vision a
 
 ### 8️⃣ Lane Marking  
 - Use the detected lines to **mark lanes** on the image.  
+
+![ROI](images/lanedetection.png) 
